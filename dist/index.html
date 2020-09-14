@@ -4,6 +4,7 @@
   <title>Star Shot</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="main.js"></script>
   <link rel="stylesheet" href="./styles/canvas.css">
   <link rel="stylesheet" href="./styles/reset.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
@@ -12,12 +13,10 @@
 </head>
 <body>
   <div>
-    <canvas id="game-canvas">
-          
-    </canvas>
- 
-  </div>
+    <canvas id="game-canvas"></canvas>
   
-  <script src="/src/index.js"></script>
+  </div>
+  <script type="module" src="/src/obstacles.js"></script>
+  <script type="module" src="/src/index.js"></script>
 </body>
 </html>

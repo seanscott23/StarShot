@@ -1,51 +1,50 @@
-// const Game = require("./game");
-// const GameView = require("./game_view");
 
-// document.addEventListener("DOMContentLoaded", function () {
-  // let rectangle, controller;
+import Level1 from "./Level1";
+
+document.addEventListener("DOMContentLoaded", function () {
+
   let canvas = document.querySelector("canvas");
-
-
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
   const ctx = canvas.getContext("2d");
 
+  const level1 = new Level1(ctx);
 
-   const rectangle = {
+  canvas.width = window.innerWidth - 350;
+  canvas.height = window.innerHeight;
+
+  const rectangle = {
     height: 30,
     jumping: true,
     width: 30,
-    x: 100,
+    x: 350,
     x_velocity: 0,
     y: 0,
-    y_velocity: 0
+    y_velocity: 0,
   };
+
 
   const controller = {
     left: false,
     right: false,
     up: false,
-    keyListener:function(event){
-
-      let key_state = (event.type == "keydown") ? true : false;
-      switch(event.keyCode){
-          case 37:
-            controller.left = key_state;
+    keyListener: function (event) {
+      let key_state = event.type == "keydown" ? true : false;
+      switch (event.keyCode) {
+        case 37:
+          controller.left = key_state;
           break;
-          case 38:
-            controller.up = key_state;
+        case 38:
+          controller.up = key_state;
           break;
-          case 39:
-            controller.right = key_state;
+        case 39:
+          controller.right = key_state;
           break;
       }
-    }
+    },
   };
-  
 
+  const loop = () => {
+    // Level1;
 
-  const loop = function () {
     if (controller.up && rectangle.jumping == false) {
       rectangle.y_velocity -= 20;
       rectangle.jumping = true;
@@ -65,40 +64,57 @@
     rectangle.x_velocity *= 0.9;
     rectangle.y_velocity *= 0.9;
 
-    if (rectangle.y > 180 - 16 - 30) {
+    if (rectangle.y > 180 - 16 - 32) {
       rectangle.jumping = false;
-      rectangle.y = 180 - 16 - 30;
+      rectangle.y = 180 - 16 - 32;
       rectangle.y_velocity = 0;
     }
 
-    if(rectangle.x < 30){
-      rectangle.x_velocity = -rectangle.x_velocity;
-    }else if(rectangle.x > 320){
-      rectangle.x_velocity = -rectangle.x_velocity;
+    if (rectangle.x < 300) {
+      rectangle.x_velocity = -rectangle.x_velocity * 2;
+    } else if (rectangle.x > window.innerWidth - 400) {
+      rectangle.x_velocity = -rectangle.x_velocity * 2;
     }
-    // if (rectangle.x  > 320 || rectangle.x < -30) {
-    //   recatangle.x_velocity = -rectangle.x_velocity;
-    // }
+
+    const getDistance = (x, y, x2, y2) => {
+      
+       let x_distance = x2 - x;
+       let y_distance = y2 - y;
+       return Math.sqrt(Math.pow(x_distance, 2) + Math.pow(y_distance, 2));
+     };
+
+
+    const distance =  getDistance(
+      rectangle.x, rectangle.y,
+       level1.obstacle1.rectangle2.x, level1.obstacle1.rectangle2.y);
+
+    if(distance <= 1){
+      console.log(distance)
+      rectangle.x_velocity = -rectangle.x_velocity * 2;
+      console.log("Game Over");
+    }
+
 
     ctx.fillStyle = "gray";
     ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
     ctx.fillStyle = "green";
     ctx.beginPath();
-    ctx.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height)
+    ctx.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     ctx.fill();
     ctx.strokeStyle = "black";
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(0, 160)
-    ctx.lineTo(window.innerWidth, 160)
+    ctx.moveTo(0, 160);
+    ctx.lineTo(window.innerWidth, 160);
     ctx.stroke();
-
-    window.requestAnimationFrame(loop)
+    level1.draw();
+    window.requestAnimationFrame(loop);
   };
 
-window.addEventListener("keydown", controller.keyListener);
-window.addEventListener("keyup", controller.keyListener);
-window.requestAnimationFrame(loop);
+  window.addEventListener("keydown", controller.keyListener);
+  window.addEventListener("keyup", controller.keyListener);
+  window.requestAnimationFrame(loop);
+});
 
 
 
