@@ -15,7 +15,6 @@ export default class Obstacle {
       this.ctx.fillStyle = "black";
       this.ctx.fill();
    }
-
 }
 
 

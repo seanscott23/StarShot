@@ -12,6 +12,12 @@ const Util = {
     ChildClass.prototype = Object.create(ParentClass.prototype);
     ChildClass.prototype.constructor = ChildClass;
   },
+
+  displayResetScreen = () => {
+    const backgroundDiv = document.getElementById("game-over");
+    backgroundDiv.style.display = block;
+    
+  }
 };
 
 
